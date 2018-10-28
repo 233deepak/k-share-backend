@@ -1,0 +1,109 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+  "Transform" : [ "AWS::Serverless-2016-10-31", "AWS::CodeStar" ],
+  "Description" : null,
+  "Resources" : {
+    "GetHelloWorld" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/HelloWorld-1.0.jar",
+        "Events" : {
+          "GetEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/",
+              "Method" : "get"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.aws.codestar.projecttemplates.handler.HelloWorldHandler"
+      }
+    },
+    "PostHelloWorld" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/HelloWorld-1.0.jar",
+        "Events" : {
+          "PostEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/",
+              "Method" : "post"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.aws.codestar.projecttemplates.handler.HelloWorldHandler"
+      }
+    },
+    "Topic" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/HelloWorld-1.0.jar",
+        "Events" : {
+          "CreateEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/topic",
+              "Method" : "put"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.aws.codestar.projecttemplates.lambda.TopicLambda"
+      }
+    },
+    "GetUser" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/HelloWorld-1.0.jar",
+        "Events" : {
+          "GetEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/user",
+              "Method" : "get"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.aws.codestar.projecttemplates.handler.UserHandler"
+      }
+    }
+  },
+  "Parameters" : {
+    "ProjectId" : {
+      "Type" : "String",
+      "Description" : "AWS CodeStar projectID used to associate new resources to team members"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-package com.aws.codestar.projecttemplates.common;
+package com.amazonaws.kshare;
 
 import com.amazonaws.HttpMethod;
 import org.codehaus.jettison.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.aws.codestar.projecttemplates.model;
+package com.amazonaws.kshare.model;
 
 import java.util.Date;
 
@@ -16,6 +16,17 @@ public class Topic {
 	private TopicStatus status;
 	private String tags;
 	private String documentId;
+	private String category;
+	
+	
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
 
 	public String getGuid() {
 		return guid;

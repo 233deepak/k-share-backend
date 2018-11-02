@@ -1,4 +1,4 @@
-package com.aws.codestar.projecttemplates.exception;
+package com.amazonaws.kshare.exception;
 
 public class CouldNotCreateTopicException extends Exception {
 	public CouldNotCreateTopicException(String message) {

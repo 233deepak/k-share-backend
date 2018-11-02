@@ -1,10 +1,10 @@
-package com.aws.codestar.projecttemplates.configuration;
+package com.amazonaws.kshare.configuration;
 
 import java.net.URI;
 
+import com.amazonaws.kshare.dao.TopicDao;
 import com.amazonaws.kshare.dao.intf.TopicDaoIntf;
-import com.aws.codestar.projecttemplates.dao.TopicDao;
-import com.aws.codestar.projecttemplates.services.TopicService;
+import com.amazonaws.kshare.services.TopicService;
 
 import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
@@ -13,21 +13,19 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClientBuilder;
 public class AppConfig {
 
 	private TopicDao topicDao;
-	//private DynamoDB dynamoDB;
+	// private DynamoDB dynamoDB;
 	private DynamoDbClient dynamoDbClient;
 	private TopicService topicService;
 	private static AppConfig appConfig;
 
-	/**public DynamoDB dynamoDB() {
-		AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
-				.withEndpointConfiguration(
-						new AwsClientBuilder.EndpointConfiguration("http://docker.for.mac.localhost:8000", "us-east-2"))
-				.build();
-
-		if (dynamoDB == null)
-			dynamoDB = new DynamoDB(client);
-		return dynamoDB;
-	} */
+	/**
+	 * public DynamoDB dynamoDB() { AmazonDynamoDB client =
+	 * AmazonDynamoDBClientBuilder.standard() .withEndpointConfiguration( new
+	 * AwsClientBuilder.EndpointConfiguration("http://docker.for.mac.localhost:8000",
+	 * "us-east-2")) .build();
+	 * 
+	 * if (dynamoDB == null) dynamoDB = new DynamoDB(client); return dynamoDB; }
+	 */
 
 	public TopicDaoIntf topicDao() {
 		if (topicDao == null)
@@ -36,8 +34,8 @@ public class AppConfig {
 	}
 
 	public DynamoDbClient dynamoDb() {
-		//final String endpoint = "http://docker.for.mac.localhost:8000";
-		final String endpoint = "";
+		final String endpoint = "http://docker.for.mac.localhost:8000";
+		// final String endpoint = "";
 
 		DynamoDbClientBuilder builder = DynamoDbClient.builder();
 		builder.httpClient(ApacheHttpClient.builder().build());
@@ -53,6 +51,7 @@ public class AppConfig {
 	public TopicService topicService() {
 		if (topicService == null)
 			topicService = new TopicService();
+		topicService.intializeTopicTable();
 		return topicService;
 	}
 

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.aws.codestar.projecttemplates</groupId>
-	<artifactId>HelloWorld</artifactId>
+	<artifactId>backend-k-share</artifactId>
 	<version>1.0</version>
 	<packaging>jar</packaging>
 	<name>A sample Java Spring web service created with AWS CodeStar.</name>
@@ -52,12 +52,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.amazonaws.serverless</groupId>
-			<artifactId>aws-serverless-java-container-spring</artifactId>
-			<version>[0.1,)</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/io.symphonia/lambda-logging -->

@@ -1,4 +1,4 @@
-package com.aws.codestar.projecttemplates.model;
+package com.amazonaws.kshare.model;
 
 public enum TopicStatus {
 

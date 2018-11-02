@@ -1,12 +1,19 @@
 package com.amazonaws.kshare.dao.intf;
 
-import com.aws.codestar.projecttemplates.exception.CouldNotCreateTopicException;
-import com.aws.codestar.projecttemplates.exception.TableExistsException;
-import com.aws.codestar.projecttemplates.model.Topic;
+import com.amazonaws.kshare.exception.CouldNotCreateTopicException;
+import com.amazonaws.kshare.exception.TableDoesNotExistException;
+import com.amazonaws.kshare.exception.TableExistsException;
+import com.amazonaws.kshare.model.Page;
+import com.amazonaws.kshare.model.PageRequest;
+import com.amazonaws.kshare.model.Topic;
 
 public interface TopicDaoIntf {
 
 	public void createTopicTable() throws TableExistsException;
 
 	public Topic addTopic(Topic topic) throws CouldNotCreateTopicException;
+	
+    public Page<Topic> getTopics(PageRequest pageRequest) throws TableDoesNotExistException;
+    
+    public Page<Topic> filterTopics(String exclusiveStartOrderId) throws TableDoesNotExistException;
 }

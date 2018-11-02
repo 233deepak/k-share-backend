@@ -1,4 +1,4 @@
-package com.aws.codestar.projecttemplates.exception;
+package com.amazonaws.kshare.exception;
 
 public class TableExistsException extends Exception {
 	 public TableExistsException(String message) {

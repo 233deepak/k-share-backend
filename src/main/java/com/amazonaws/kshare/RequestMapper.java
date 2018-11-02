@@ -1,4 +1,4 @@
-package com.aws.codestar.projecttemplates.common;
+package com.amazonaws.kshare;
 
 import java.util.Map;
 

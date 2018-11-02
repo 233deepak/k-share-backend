@@ -34,8 +34,8 @@ public class AppConfig {
 	}
 
 	public DynamoDbClient dynamoDb() {
-		final String endpoint = "http://docker.for.mac.localhost:8000";
-		// final String endpoint = "";
+		//final String endpoint = "http://docker.for.mac.localhost:8000";
+		final String endpoint = "";
 
 		DynamoDbClientBuilder builder = DynamoDbClient.builder();
 		builder.httpClient(ApacheHttpClient.builder().build());

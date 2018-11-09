@@ -13,6 +13,7 @@ public class RequestMapper {
 	public static final String BODY = "body";
 	public static final String RESOURCE = "resource";
 	public static final String REQUESTCONTEXT = "requestContext";
+	public static final String PATHPARAMETERS = "pathParameters";
 
 	public static Request mapRequest(Map<String, Object> paylod) {
 
@@ -29,6 +30,9 @@ public class RequestMapper {
 		case "PUT":
 			httpMethod = HttpMethod.PUT;
 			break;
+		case "PATCH":
+			httpMethod = HttpMethod.PATCH;
+			break;
 		}
 
 		request.setHttpMethod(httpMethod);
@@ -43,6 +47,14 @@ public class RequestMapper {
 		if (paylod.containsKey(REQUESTCONTEXT) && paylod.get(REQUESTCONTEXT) != null) {
 			request.setRequestContext(new JSONObject((Map) paylod.get(REQUESTCONTEXT)));
         }
+		
+		if (paylod.containsKey(PATHPARAMETERS) && paylod.get(PATHPARAMETERS) != null) {
+			request.setPathParameters(new JSONObject((Map) paylod.get(PATHPARAMETERS)));
+        }
+		
+		if (paylod.containsKey(RESOURCE) && paylod.get(RESOURCE) != null) {
+            request.setResource((String) paylod.get(RESOURCE));
+		}
 
 		return request;
 	}

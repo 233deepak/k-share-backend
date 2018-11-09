@@ -3,6 +3,150 @@
   "Transform" : [ "AWS::Serverless-2016-10-31", "AWS::CodeStar" ],
   "Description" : null,
   "Resources" : {
+    "GetAllCommentsForTopic" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "getEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/topic/{topic_id}/comment",
+              "Method" : "get"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.TopicLambda"
+      }
+    },
+    "InitializeDocumentTable" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "getEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/doc",
+              "Method" : "patch"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.DocLambda"
+      }
+    },
+    "InitializeTopicTable" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "getEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/topic",
+              "Method" : "patch"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.TopicLambda"
+      }
+    },
+    "CreateUser" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "getEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/user",
+              "Method" : "put"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.UserLambda"
+      }
+    },
+    "InitializeUsertable" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "getEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/user",
+              "Method" : "patch"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.UserLambda"
+      }
+    },
+    "GetDocument" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "getEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/doc/{doc_id}",
+              "Method" : "get"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.DocLambda"
+      }
+    },
     "CreateTopic" : {
       "Type" : "AWS::Serverless::Function",
       "Properties" : {
@@ -19,6 +163,54 @@
             "Type" : "Api",
             "Properties" : {
               "Path" : "/topic",
+              "Method" : "put"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.TopicLambda"
+      }
+    },
+    "GetUserByEmailId" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "getEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/user/{email_Id}/{social_Site}",
+              "Method" : "get"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.UserLambda"
+      }
+    },
+    "AddCommentToTopic" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "CreateEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/topic/{topic_id}/comment",
               "Method" : "put"
             }
           }
@@ -49,6 +241,102 @@
         },
         "Timeout" : 300,
         "Handler" : "com.amazonaws.kshare.lambda.TopicLambda"
+      }
+    },
+    "CreateDocument" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "getEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/doc",
+              "Method" : "put"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.DocLambda"
+      }
+    },
+    "UpdateTopic" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "getEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/topic/{topic_id}",
+              "Method" : "put"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.TopicLambda"
+      }
+    },
+    "InitializeCommenTable" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "getEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/topic/comment",
+              "Method" : "patch"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.TopicLambda"
+      }
+    },
+    "GetUser" : {
+      "Type" : "AWS::Serverless::Function",
+      "Properties" : {
+        "Role" : {
+          "Fn::ImportValue" : [ "-", [ "ProjectId", "AWS::Region", "LambdaTrustRole" ] ]
+        },
+        "MemorySize" : 512,
+        "Runtime" : "java8",
+        "Description" : null,
+        "Policies" : [ ],
+        "CodeUri" : "./target/backend-k-share-1.0.jar",
+        "Events" : {
+          "getEvent" : {
+            "Type" : "Api",
+            "Properties" : {
+              "Path" : "/user/{user_id}",
+              "Method" : "get"
+            }
+          }
+        },
+        "Timeout" : 300,
+        "Handler" : "com.amazonaws.kshare.lambda.UserLambda"
       }
     }
   },

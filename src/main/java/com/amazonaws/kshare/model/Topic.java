@@ -12,13 +12,29 @@ public class Topic {
 	private String createdBy;
 	private boolean hasVideos;
 	private boolean hasNotes;
-	private int views;
+	private int numberOfviews;
 	private TopicStatus status;
 	private String tags;
 	private String documentId;
 	private String category;
+	private String ownerUserID;
+	private String reviewerUserID;
 	
-	
+	public String getOwnerUserID() {
+		return ownerUserID;
+	}
+
+	public void setOwnerUserID(String ownerUserID) {
+		this.ownerUserID = ownerUserID;
+	}
+
+	public String getReviewerUserID() {
+		return reviewerUserID;
+	}
+
+	public void setReviewerUserID(String reviewerUserID) {
+		this.reviewerUserID = reviewerUserID;
+	}
 
 	public String getCategory() {
 		return category;
@@ -76,12 +92,12 @@ public class Topic {
 		this.hasNotes = hasNotes;
 	}
 
-	public int getViews() {
-		return views;
+	public int getNumberOfviews() {
+		return numberOfviews;
 	}
 
-	public void setViews(int views) {
-		this.views = views;
+	public void setNumberOfviews(int numberOfviews) {
+		this.numberOfviews = numberOfviews;
 	}
 
 	public TopicStatus getStatus() {
@@ -127,7 +143,7 @@ public class Topic {
 	@Override
 	public String toString() {
 		return "Topic [guid=" + guid + ", title=" + title + ", createdOn=" + createdOn + ", createdBy=" + createdBy
-				+ ", hasVideos=" + hasVideos + ", hasNotes=" + hasNotes + ", views=" + views + ", status=" + status
+				+ ", hasVideos=" + hasVideos + ", hasNotes=" + hasNotes + ", views=" + numberOfviews + ", status=" + status
 				+ ", tags=" + tags + ", documentId=" + documentId + "]";
 	}
 

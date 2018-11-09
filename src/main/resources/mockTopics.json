@@ -5,12 +5,14 @@
 		"createdOn": "2015-10-1 3:00 PM GMT+1:00",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 10,
+		"numberOfviews": 10,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "Heap and Heap sort",
@@ -18,12 +20,14 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "Linked-list",
@@ -31,12 +35,14 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "B-trees",
@@ -44,12 +50,14 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "Queue",
@@ -57,12 +65,14 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "DFS",
@@ -70,12 +80,14 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "BFS",
@@ -83,12 +95,14 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "BST",
@@ -96,12 +110,14 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "DAG",
@@ -109,12 +125,14 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "Stack",
@@ -122,12 +140,14 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "Arrays",
@@ -135,12 +155,14 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "Pattern",
@@ -148,12 +170,14 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	},
 	{
 		"title": "Dynamic programming",
@@ -161,11 +185,13 @@
 		"createdBy": "Sriyank Siddhartha",
 		"hasVideos": true,
 		"hasNotes": true,
-		"views": 20089,
+		"numberOfviews": 20089,
 		"status": "DRAFT",
 		"tags": "bput,data",
 		"documentId": "1234jbjsa",
 		"guid": "FDSNNN2i01",
-		"category": "computer science"
+		"category": "computer science",
+		"reviewerUserID": "ADMIN",
+		"ownerUserID": "SJNSJSNJ78"
 	}
 ]

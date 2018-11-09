@@ -15,6 +15,7 @@ import com.amazonaws.kshare.dao.intf.TopicDaoIntf;
 import com.amazonaws.kshare.exception.CouldNotCreateTopicException;
 import com.amazonaws.kshare.exception.TableDoesNotExistException;
 import com.amazonaws.kshare.exception.TableExistsException;
+import com.amazonaws.kshare.exception.UnableToUpdateException;
 import com.amazonaws.kshare.model.FilterCondition;
 import com.amazonaws.kshare.model.Page;
 import com.amazonaws.kshare.model.PageRequest;
@@ -32,25 +33,30 @@ import software.amazon.awssdk.services.dynamodb.model.ProvisionedThroughput;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.ResourceInUseException;
 import software.amazon.awssdk.services.dynamodb.model.ResourceNotFoundException;
+import software.amazon.awssdk.services.dynamodb.model.ReturnValue;
 import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType;
 import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
 import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
+import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.UpdateItemResponse;
 
 public class TopicDao implements TopicDaoIntf {
 
 	private DynamoDbClient dynamoDb;
-	
+	private DateFormat dateFormat;
 	
 	public TopicDao(DynamoDbClient dynamoDb) {
-		super();
 		this.dynamoDb = dynamoDb;
+		dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm a z");
 	}
 
 	private static final String TABLENAME = "Topic-Metadata";
-	private static final int PAGESIZE = 50;
-	private static final int LIMIT = 20;
+	//private static final int LIMIT = 20;
 	
 	private static final String TOPIC_ID= "TopicId";
+	private static final String UPDATE_EXPRESSION = "SET numberOfviews = :numberOfviews ADD version :o";
+	private static final String VERSION_WAS_NULL = "version was null";
+
     
 	@Override
 	public void createTopicTable() throws TableExistsException {
@@ -112,17 +118,24 @@ public class TopicDao implements TopicDaoIntf {
 	                AttributeValue.builder().s(topic.getGuid()).build());
 	        item.put("title",
 	                AttributeValue.builder().s(topic.getTitle()).build());
-	        if(topic.getCreatedOn()!=null)
-	        item.put("createdOn",
-	                AttributeValue.builder().s(topic.getCreatedOn().toString()).build());
+		if (topic.getCreatedOn() != null) {
+			String createdOn = dateFormat.format(topic.getCreatedOn());
+			item.put("createdOn", 
+					AttributeValue.builder().s(createdOn).build());
+		}
+	       
 	        item.put("createdBy",
 	                AttributeValue.builder().s(topic.getCreatedBy()).build());
+	        item.put("ownerUserID",
+	                AttributeValue.builder().s(topic.getOwnerUserID()).build());
+	        item.put("reviewerUserID",
+	                AttributeValue.builder().s(topic.getReviewerUserID()).build());
 	        item.put("hasVideos",
 	                AttributeValue.builder().bool(topic.isHasVideos()).build());
 	        item.put("hasNotes",
 	                AttributeValue.builder().bool(topic.isHasNotes()).build());
-	        item.put("views",
-	                AttributeValue.builder().n(String.valueOf(topic.getViews())).build());
+	        item.put("numberOfviews",
+	                AttributeValue.builder().n(String.valueOf(topic.getNumberOfviews())).build());
 	        item.put("status",
 	                AttributeValue.builder().s(topic.getStatus().getStatus()).build());
 	        item.put("tags",
@@ -145,14 +158,22 @@ public class TopicDao implements TopicDaoIntf {
 		do {
 			Map<String, AttributeValue> expressionAttributeValues = 
 				    new HashMap<String, AttributeValue>();
-				expressionAttributeValues.put(":ser_key", AttributeValue.builder().s(pageRequest.getSerKey()).build()); 
+				
 			try {
-				String filterExpression = buildFilterCondition(pageRequest, expressionAttributeValues);
+				StringBuilder filterExpressionBuilder = new StringBuilder();
+				if(!isNullOrEmpty(pageRequest.getSerKey())) {
+					filterExpressionBuilder.append("(contains(title,:ser_key) OR contains(createdBy,:ser_key) OR contains(tags,:ser_key) OR contains(category,:ser_key)) ");
+					expressionAttributeValues.put(":ser_key", AttributeValue.builder().s(pageRequest.getSerKey()).build()); 
+				}
+				String filterExpression = buildFilterCondition(pageRequest, expressionAttributeValues ,filterExpressionBuilder);
 				ScanRequest.Builder scanBuilder = ScanRequest.builder()
-						                       .tableName(TABLENAME)
-						                       .filterExpression(filterExpression)
-						                       .expressionAttributeValues(expressionAttributeValues);
+						                       .tableName(TABLENAME);
+						                       
 						                       //.limit(LIMIT);
+				if(!isNullOrEmpty(filterExpression)) {
+					scanBuilder.filterExpression(filterExpression)
+                    .expressionAttributeValues(expressionAttributeValues);
+				}
 				if (!isNullOrEmpty(exclusiveStartOrderId)) {
 					scanBuilder.exclusiveStartKey(Collections.singletonMap(TOPIC_ID,
 							AttributeValue.builder().s(exclusiveStartOrderId).build()));
@@ -184,13 +205,15 @@ public class TopicDao implements TopicDaoIntf {
 	}
 
 	private String buildFilterCondition(PageRequest pageRequest,
-			Map<String, AttributeValue> expressionAttributeValues) {
-		String filterExpression = "(contains(title,:ser_key) OR contains(createdBy,:ser_key) OR contains(tags,:ser_key) OR contains(category,:ser_key)) ";
+			Map<String, AttributeValue> expressionAttributeValues, StringBuilder filterExpressionBuilder) {
 		for(FilterCondition condition :pageRequest.getFilterConditions()) {
-			filterExpression += "AND "+condition.getFieldName()+"= :"+condition.getFieldName()+"_val";
+			if("".equals(filterExpressionBuilder.toString())) 
+				filterExpressionBuilder.append(condition.getFieldName()+"= :"+condition.getFieldName()+"_val");
+			else
+				filterExpressionBuilder.append("AND "+condition.getFieldName()+"= :"+condition.getFieldName()+"_val");
 			expressionAttributeValues.put(":"+condition.getFieldName()+"_val", AttributeValue.builder().s((String) condition.getValue()).build());
 		}
-		return filterExpression;
+		return filterExpressionBuilder.toString();
 	}
 
     private static boolean isNullOrEmpty(final String string) {
@@ -206,19 +229,19 @@ public class TopicDao implements TopicDaoIntf {
 		try {
 			topic.setTopicId(item.get(TOPIC_ID).s());
 		} catch (NullPointerException e) {
-			throw new IllegalStateException("item did not have an topic attribute or it was not a String");
+			throw new IllegalStateException("item did not have an TOPIC_ID attribute or it was not a String");
 		}
 
 		try {
 			topic.setVersion(Long.valueOf(item.get("version").n()));
 		} catch (NullPointerException e) {
-			throw new IllegalStateException("item did not have an customerId attribute or it was not a String");
+			throw new IllegalStateException("item did not have an version attribute or it was not a String");
 		}
 
 		try {
 			topic.setGuid(item.get("guid").s());
 		} catch (NullPointerException | NumberFormatException e) {
-			throw new IllegalStateException("item did not have an preTaxAmount attribute or it was not a Number");
+			throw new IllegalStateException("item did not have an guid attribute or it was not a Number");
 		}
 
 		try {
@@ -229,14 +252,25 @@ public class TopicDao implements TopicDaoIntf {
 
 		try {
 			String createdOn = item.get("createdOn").s();
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm a z");
-			topic.setCreatedOn(df.parse(createdOn));
+			topic.setCreatedOn(dateFormat.parse(createdOn));
 		} catch (NullPointerException | NumberFormatException | ParseException e) {
 			//throw new IllegalStateException("item did not have an version attribute or it was not a Number");
 		}
 
 		try {
 			topic.setCreatedBy(item.get("createdBy").s());
+		} catch (NullPointerException  e) {
+			throw new IllegalStateException("item did not have an createdBy attribute ");
+		}
+		
+		try {
+			topic.setOwnerUserID(item.get("ownerUserID").s());
+		} catch (NullPointerException  e) {
+			throw new IllegalStateException("item did not have an createdBy attribute ");
+		}
+		
+		try {
+			topic.setReviewerUserID(item.get("reviewerUserID").s());
 		} catch (NullPointerException  e) {
 			throw new IllegalStateException("item did not have an createdBy attribute ");
 		}
@@ -258,9 +292,9 @@ public class TopicDao implements TopicDaoIntf {
 			throw new IllegalStateException("item did not have an status attribute ");
 		}
 		try {
-			topic.setViews(Integer.valueOf((item.get("views").n())));
+			topic.setNumberOfviews(Integer.valueOf((item.get("numberOfviews").n())));
 		} catch (NullPointerException | NumberFormatException e) {
-			throw new IllegalStateException("item did not have an views attribute or it was not a Number");
+			throw new IllegalStateException("item did not have an numberOfviews attribute or it was not a Number");
 		}
 		try {
 			topic.setTags(item.get("tags").s());
@@ -306,5 +340,48 @@ public class TopicDao implements TopicDaoIntf {
 	public Page<Topic> filterTopics(String exclusiveStartOrderId) throws TableDoesNotExistException {
 		
 		return null;
+	}
+
+	@Override
+	public Topic updateTopic(Topic topic) throws UnableToUpdateException, TableDoesNotExistException {
+
+        if (topic == null) {
+            throw new IllegalArgumentException("topic to update was null");
+        }
+        
+        String topicId = topic.getTopicId();
+        if (isNullOrEmpty(topicId)) {
+            throw new IllegalArgumentException("topicId was null or empty");
+        }
+        Map<String, AttributeValue> expressionAttributeValues = new HashMap<>();
+        int noOfViews = topic.getNumberOfviews();
+        expressionAttributeValues.put(":numberOfviews",
+                AttributeValue.builder().n(Integer.toString(noOfViews+1)).build());
+        expressionAttributeValues.put(":o", AttributeValue.builder().n("1").build());
+        try {
+            expressionAttributeValues.put(":v",
+                    AttributeValue.builder().n(topic.getVersion().toString()).build());
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException(VERSION_WAS_NULL);
+        }
+        final UpdateItemResponse result;
+        try {
+            result = dynamoDb.updateItem(UpdateItemRequest.builder()
+                    .tableName(TABLENAME)
+                    .key(Collections.singletonMap(TOPIC_ID,
+                            AttributeValue.builder().s(topic.getTopicId()).build()))
+                    .returnValues(ReturnValue.ALL_NEW)
+                    .updateExpression(UPDATE_EXPRESSION)
+                    .conditionExpression("attribute_exists(TopicId) AND version = :v")
+                    .expressionAttributeValues(expressionAttributeValues)
+                    .build());
+        } catch (ConditionalCheckFailedException e) {
+            throw new UnableToUpdateException(
+                    "Either the topic did not exist or the provided version was not current");
+        } catch (ResourceNotFoundException e) {
+            throw new TableDoesNotExistException("Topic table " + TABLENAME
+                    + " does not exist and was deleted after reading the topic");
+        }
+        return convert(result.attributes());
 	}
 }

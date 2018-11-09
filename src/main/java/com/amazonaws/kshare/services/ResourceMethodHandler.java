@@ -5,7 +5,7 @@ import com.amazonaws.kshare.model.Page;
 
 public interface ResourceMethodHandler<T> {
 
-	void doGet(Request request);
+	T doGet(Request request);
 
 	Page<T> doPost(Request request);
 

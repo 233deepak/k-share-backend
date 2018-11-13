@@ -14,6 +14,8 @@ import com.amazonaws.kshare.services.DocSevice;
 import com.amazonaws.kshare.services.TopicService;
 import com.amazonaws.kshare.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
 import software.amazon.awssdk.http.apache.ApacheHttpClient;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
@@ -94,6 +96,8 @@ public class AppConfig {
 	public ObjectMapper objectMapper() {
 		if (objectMapper == null) {
 			objectMapper = new ObjectMapper();
+			objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+			objectMapper.setDateFormat(new ISO8601DateFormat());
 		}
 		return objectMapper;
 	}

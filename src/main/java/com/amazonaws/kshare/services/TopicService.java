@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.codehaus.jettison.json.JSONException;
@@ -65,8 +66,11 @@ public class TopicService implements ResourceMethodHandler<Topic> {
 			topic = objectMapper.readValue(requestBody.toString(), Topic.class);
 			if (request.getPathParameters() != null && request.getPathParameters().has("topic_id"))
 				topic = topicDao.updateTopic(topic);
-			else
+			else {
+				topic.setCreatedOn(new Date());
 				topicDao.addTopic(topic);
+			}
+				
 
 		} catch (Exception e) {
 			e.printStackTrace();

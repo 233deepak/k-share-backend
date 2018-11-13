@@ -54,6 +54,7 @@ public class UserLambda implements RequestHandler<Object, Object> {
 		}
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
+		headers.put("Access-Control-Allow-Origin", "*");
 		return new GatewayResponse(response.toString(), headers, 200);
 
 	}

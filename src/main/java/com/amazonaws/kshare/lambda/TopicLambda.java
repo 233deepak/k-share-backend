@@ -28,7 +28,7 @@ public class TopicLambda implements RequestHandler<Object, Object> {
 
 	public TopicLambda() {
 		this.topicService = AppConfig.getInstance().topicService();
-		this.objectMapper = new ObjectMapper();
+		this.objectMapper = AppConfig.getInstance().objectMapper();
 	}
 	
 	private static final String COMMENT = "comment";
@@ -87,6 +87,7 @@ public class TopicLambda implements RequestHandler<Object, Object> {
 
 		Map<String, String> headers = new HashMap<>();
 		headers.put("Content-Type", "application/json");
+		headers.put("Access-Control-Allow-Origin", "*");
 		return new GatewayResponse(response.toString(), headers, 200);
 	}
 

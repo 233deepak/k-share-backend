@@ -117,7 +117,7 @@ public class TopicDao implements TopicDaoIntf {
 	        item.put("guid",
 	                AttributeValue.builder().s(topic.getGuid()).build());
 	        item.put("title",
-	                AttributeValue.builder().s(topic.getTitle()).build());
+	                AttributeValue.builder().s(topic.getTitle().toLowerCase()).build());
 		if (topic.getCreatedOn() != null) {
 			String createdOn = dateFormat.format(topic.getCreatedOn());
 			item.put("createdOn", 
@@ -125,7 +125,7 @@ public class TopicDao implements TopicDaoIntf {
 		}
 	       
 	        item.put("createdBy",
-	                AttributeValue.builder().s(topic.getCreatedBy()).build());
+	                AttributeValue.builder().s(topic.getCreatedBy().toLowerCase()).build());
 	        item.put("ownerUserID",
 	                AttributeValue.builder().s(topic.getOwnerUserID()).build());
 	        item.put("reviewerUserID",
@@ -139,11 +139,11 @@ public class TopicDao implements TopicDaoIntf {
 	        item.put("status",
 	                AttributeValue.builder().s(topic.getStatus().getStatus()).build());
 	        item.put("tags",
-	                AttributeValue.builder().s(topic.getTags()).build());
+	                AttributeValue.builder().s(topic.getTags().toLowerCase()).build());
 	        item.put("documentId",
 	                AttributeValue.builder().s(topic.getDocumentId()).build());
 	        item.put("category",
-	                AttributeValue.builder().s(topic.getCategory()).build());
+	                AttributeValue.builder().s(topic.getCategory().toLowerCase()).build());
 	        return item;
 		
 	}
@@ -208,9 +208,9 @@ public class TopicDao implements TopicDaoIntf {
 			Map<String, AttributeValue> expressionAttributeValues, StringBuilder filterExpressionBuilder) {
 		for(FilterCondition condition :pageRequest.getFilterConditions()) {
 			if("".equals(filterExpressionBuilder.toString())) 
-				filterExpressionBuilder.append(condition.getFieldName()+"= :"+condition.getFieldName()+"_val");
+				filterExpressionBuilder.append("contains("+condition.getFieldName()+",:"+condition.getFieldName()+"_val)");
 			else
-				filterExpressionBuilder.append("AND "+condition.getFieldName()+"= :"+condition.getFieldName()+"_val");
+				filterExpressionBuilder.append("AND contains("+condition.getFieldName()+",:"+condition.getFieldName()+"_val)");
 			expressionAttributeValues.put(":"+condition.getFieldName()+"_val", AttributeValue.builder().s((String) condition.getValue()).build());
 		}
 		return filterExpressionBuilder.toString();

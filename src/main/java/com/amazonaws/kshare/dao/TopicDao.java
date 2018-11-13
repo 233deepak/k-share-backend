@@ -266,7 +266,7 @@ public class TopicDao implements TopicDaoIntf {
 		try {
 			topic.setOwnerUserID(item.get("ownerUserID").s());
 		} catch (NullPointerException  e) {
-			throw new IllegalStateException("item did not have an createdBy attribute ");
+			throw new IllegalStateException("item did not have an ownerUserID attribute ");
 		}
 		
 		try {

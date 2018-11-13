@@ -97,6 +97,7 @@ public class TopicService implements ResourceMethodHandler<Topic> {
 			if(request.getPathParameters()!=null && request.getPathParameters().has("topic_id")) {
 				String topicId = request.getPathParameters().getString("topic_id");
 				comment.setTopicId(topicId);
+				comment.setCommentedOn(new Date());
 				commentDao.addComment(comment);
 			}else {
 				throw new IllegalArgumentException("comment should be associated wit a topic");

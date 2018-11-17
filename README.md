@@ -41,7 +41,7 @@ This project includes:
 What Do I Do Next?
 ------------------
 
-If you have checked out a local copy of your repository you can start with the following things to start
+If you have checked out a local copy of your repository you can follow below steps to start
 Running this project locally
 * Install docker locally following https://store.docker.com/editions/community/docker-ce-desktop-mac
 * Setup SAM-Local for your eclipse by following https://aws.amazon.com/blogs/developer/aws-toolkit-for-eclipse-locally-debug-your-lambda-functions-and-api-gateway/

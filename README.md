@@ -1,13 +1,31 @@
-Welcome to the AWS CodeStar sample web service
+Welcome to the k-share-backend AWS CodeStar project
 ==============================================
-
-This sample code helps get you started with a simple Java web service using
-AWS Lambda and Amazon API Gateway.
+This project contains following backend rest API created for k-share project.
+ * GeneratePreSignedURL at http://127.0.0.1:3000/presigned [POST]
+ * GetTopic at http://127.0.0.1:3000/topic [POST]
+ * InitializeUsertable at http://127.0.0.1:3000/user [PATCH]
+ * InitializeCommenTable at http://127.0.0.1:3000/topic/comment [PATCH]
+ * resLambdaLocalCorsStub at http://127.0.0.1:3000/topic/{topic_id}/comment [OPTIONS]
+ * CreateDocument at http://127.0.0.1:3000/doc [PUT]
+ * resLambdaLocalCorsStub at http://127.0.0.1:3000/doc [OPTIONS]
+ * CreateTopic at http://127.0.0.1:3000/topic [PUT]
+ * UpdateTopic at http://127.0.0.1:3000/topic/{topic_id} [PUT]
+ * resLambdaLocalCorsStub at http://127.0.0.1:3000/topic [OPTIONS]
+ * InitializeDocumentTable at http://127.0.0.1:3000/doc [PATCH]
+ * resLambdaLocalCorsStub at http://127.0.0.1:3000/presigned [OPTIONS]
+ * CreateUser at http://127.0.0.1:3000/user [PUT]
+ * GetAllCommentsForTopic at http://127.0.0.1:3000/topic/{topic_id}/comment [GET]
+ * resLambdaLocalCorsStub at http://127.0.0.1:3000/user [OPTIONS]
+ * InitializeTopicTable at http://127.0.0.1:3000/topic [PATCH]
+ * GetUserByEmailId at http://127.0.0.1:3000/user/{email_Id}/{social_Site} [GET]
+ * AddCommentToTopic at http://127.0.0.1:3000/topic/{topic_id}/comment [PUT]
+ * GetDocument at http://127.0.0.1:3000/doc/{doc_id} [GET]
+ 
 
 What's Here
 -----------
 
-This sample includes:
+This project includes:
 
 * README.md - this file
 * buildspec.yml - this file is used by AWS CodeBuild to build the web
@@ -23,19 +41,14 @@ This sample includes:
 What Do I Do Next?
 ------------------
 
-If you have checked out a local copy of your repository you can start making changes
-to the sample code.  We suggest making a small change to index.py first, so you can
-see how changes pushed to your project's repository are automatically picked up by
-your project pipeline and deployed to AWS Lambda and Amazon API Gateway. (You can
-watch the pipeline progress on your AWS CodeStar project dashboard.) Once you've seen
-how that works, start developing your own code, and have fun!
+If you have checked out a local copy of your repository you can start with the following things to start
+Running this project locally
+* Install docker locally following https://store.docker.com/editions/community/docker-ce-desktop-mac
+* Setup SAM-Local for your eclipse by following https://aws.amazon.com/blogs/developer/aws-toolkit-for-eclipse-locally-debug-your-lambda-functions-and-api-gateway/
+* Install dynamodb locally by following https://hub.docker.com/r/amazon/dynamodb-local/
+* Follow instruction here  https://aws.amazon.com/blogs/developer/aws-toolkit-for-eclipse-locally-debug-your-lambda-functions-and-api-gateway/ . to run and debug rest endpoints locally.
 
-To run your tests locally, go to the root directory of the sample code and run the
-`mvn clean compile test` command, which AWS CodeBuild also runs through your `buildspec.yml` file.
 
-To test your new code during the release process, modify the existing tests or add tests
-to the tests directory. AWS CodeBuild will run the tests during the build stage of your
-project pipeline. You can find the test results in the AWS CodeBuild console.
 
 Learn more about Maven's [Standard Directory Layout](https://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html).
 
@@ -58,12 +71,6 @@ User Guide: http://docs.aws.amazon.com/codestar/latest/userguide/welcome.html
 
 Forum: https://forums.aws.amazon.com/forum.jspa?forumID=248
 
-What Should I Do Before Running My Project in Production?
-------------------
 
-AWS recommends you review the security best practices recommended by the framework
-author of your selected sample application before running it in production. You
-should also regularly review and apply any available patches or associated security
-advisories for dependencies used within your application.
 
 Best Practices: https://docs.aws.amazon.com/codestar/latest/userguide/best-practices.html?icmpid=docs_acs_rm_sec
